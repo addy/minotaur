@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var nsg = require('node-sprite-generator');
+var child_process = require('child_process');
+var async = require('async');
+
+var standardStylesheet = path.join(__dirname, '../assets/css/sprites/spritesheet.css.styl');
+var retinaStylesheet = path.join(__dirname, '../assets/css/sprites/spritesheet@2x.css.styl')
+
+async.parallel({
+   standard: function (done) {
+      nsg({
+         src: [path.join(__dirname, '../public/sprites/*.png')],
+         spritePath: path.join(__dirname, '../public/images/spritesheet.png'),
+         stylesheetPath: standardStylesheet,
+         stylesheetOptions: {
+            spritePath: '/images/spritesheet.png'
+         },
+         layoutOptions: {
+            padding: 2,
+            scaling: 0.5
+         },
+         compositor: 'gm'
+      }, done);
+   },
+   retina: function (done) {
+      nsg({
+         src: [path.join(__dirname, '../public/sprites/*.png')],
+         spritePath: path.join(__dirname, '../public/images/spritesheet@2x.png'),
+         stylesheetPath: retinaStylesheet,
+         stylesheetOptions: {
+            pixelRatio: 2,
+            spritePath: '/images/spritesheet@2x.png',
+            prefix: 'retina-'
+         },
+         layoutOptions: {
+            padding: 4
+         },
+         compositor: 'gm'
+      }, done);
+   }
+}, function (err) {
+   if (err) {
+      console.log('Failed to create sprites, likely because GraphicsMagick is missing or out of date.');
+      console.log(' - Install GraphicsMagick: \'brew install graphicsmagick\'');
+      console.log('\nTool output:\n')
+      console.log(err);
+      return process.exit(1);
+   }
+
+   // Remove the background image call in sprites/spritesheet.css.styl.
+   var stylesheet = fs.readFileSync(standardStylesheet).toString();
+   var index = stylesheet.indexOf('sprite($sprite)');
+   var replacementText = 'sprite($sprite)\n    sprite-position($sprite)\n    ' +
+         'sprite-width($sprite)\n    sprite-height($sprite)';
+   fs.writeFileSync(standardStylesheet, stylesheet.substring(0, index) + replacementText);
+
+   process.exit(0);
+});
