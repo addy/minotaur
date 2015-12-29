@@ -1,0 +1,18 @@
+bomb-x = 0
+bomb-y = 0
+bomb-width = 16px
+bomb-height = 16px
+bomb = bomb-x bomb-y bomb-width bomb-height
+
+sprite-image()
+    background-image url('/images/spritesheet.png')
+sprite-position($sprite)
+    background-position $sprite[0] $sprite[1]
+sprite-width($sprite)
+    width $sprite[2]
+sprite-height($sprite)
+    height $sprite[3]
+sprite($sprite)
+    sprite-position($sprite)
+    sprite-width($sprite)
+    sprite-height($sprite)

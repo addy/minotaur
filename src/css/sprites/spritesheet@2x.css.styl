@@ -1,0 +1,22 @@
+retina-bomb-x = 0
+retina-bomb-y = 0
+retina-bomb-width = 16px
+retina-bomb-height = 16px
+retina-bomb = retina-bomb-x retina-bomb-y retina-bomb-width retina-bomb-height
+
+retina-sprite-image()
+    background-image url('/images/spritesheet@2x.png')
+retina-sprite-size()
+    background-size 16px 16px
+retina-sprite-position($sprite)
+    background-position $sprite[0] $sprite[1]
+retina-sprite-width($sprite)
+    width $sprite[2]
+retina-sprite-height($sprite)
+    height $sprite[3]
+retina-sprite($sprite)
+    retina-sprite-image()
+    retina-sprite-size()
+    retina-sprite-position($sprite)
+    retina-sprite-width($sprite)
+    retina-sprite-height($sprite)
