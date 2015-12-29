@@ -1,0 +1,11 @@
+
+do ->
+   # Don't bother capturing the errors in production.
+   <%= (process.env.NODE_ENV === "production") ? "return" : "" %>
+   window.Errors = []
+   window.onerror = (msg, url, lineNumber) ->
+      window.Errors.push({
+         msg: msg
+         url: url
+         lineNumber: lineNumber
+      })

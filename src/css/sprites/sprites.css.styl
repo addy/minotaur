@@ -1,0 +1,34 @@
+@require('./spritesheet.css.styl')
+@require('./spritesheet@2x.css.styl')
+
+sprite-base()
+   background-image url('/images/spritesheet.png')
+   background-repeat no-repeat
+
+.sprite
+   sprite-base()
+
+span.sprite
+   display inline-block
+   vertical-align middle
+
+/*------------------------------------*\
+   User Entity
+\*------------------------------------*/
+
+/*------------------------------------*\
+   Minotaur Entity
+\*------------------------------------*/
+
+/*------------------------------------*\
+   Textures
+\*------------------------------------*/
+
+/*------------------------------------*\
+   Retina
+\*------------------------------------*/
+@media (-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 192dpi)
+   .sprite
+      background-image url('/images/spritesheet@2x.png')
+      retina-sprite-size()
